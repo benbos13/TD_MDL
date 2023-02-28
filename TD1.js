@@ -1,27 +1,33 @@
 const fs = require('fs'); // Charge le module fs afin de pouvoir lire par la suite
 let rawdata = fs.readFileSync('users.json'); // On lit de manière synchrone c'est-à-dire que l'éxécution du programme est suspendu pendant la lecture du fichier
-let user = JSON.parse(rawdata) // Converti la chaine de caractère "rawdata" en objet "user"
+var user = JSON.parse(rawdata) // Converti la chaine de caractère "rawdata" en objet "user"
 
 let res = {}
 let arrRes = []
 
 const input = process.argv[2] //permet de récupérer l'entrée donné en paramètre dans le terminal
 
-if(input === 'country'){ // Si entrée est country, on exécute le code suivant
-
+function getData(demande) {
+    console.log(demande);
     for (i = 0; i < user.length; i++) { 
-        var nomPays = user[i].country//on récupère le nom du pays
-        if (!res[nomPays]) { //si nomPays n'appartient pas à res,
-            res[nomPays] = 1 // On définit l'indice du pays à 1
+        var index = user[i][demande] // On récupère le nom du pays ou de l'entreprise
+        if (!res[index]) { // Si l'index (nom du pays ou de l'entreprise) n'appartient pas à res,
+            res[index] = 1 // On définit l'indice à 1
         }
-        else//sinon
-            res[nomPays]++//on incrémente
+        else
+            res[index]++//on incrémente
     }
 
-
-    for (let i in res) {//on parcours res
-        arrRes.push({ "country": i, "count": res[i] })//on ajoute à arrRes  le pays et son nombre d'occurence
+    for (let i in res) { // On parcours res
+        let t =  {};
+        t[demande] = i;
+        t["count"] = res[i];
+        arrRes.push(t);//on ajoute à arrRes  le pays et son nombre d'occurence
     }
+}
+
+if(input === 'country'){ // Si entrée est country, on exécute le code suivant
+    getData(input);
 }
 
 if(input === 'company'){ //si entrée est company, on exécutele code suivant
@@ -41,5 +47,5 @@ if(input === 'company'){ //si entrée est company, on exécutele code suivant
 }
 
 
-arrRes.sort((a, b) => b.count - a.count) //on trie de manière décroissante
-console.log(arrRes) //on affiche le tableau
+arrRes.sort((a, b) => b.count - a.count) // On trie de manière décroissante
+console.log(arrRes) // Affichage du tableau 
