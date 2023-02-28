@@ -4,10 +4,21 @@ let rawdata = fs.readFileSync('users.json'); // On lit de manière synchrone c'e
 var user = JSON.parse(rawdata) // Converti la chaine de caractère "rawdata" en objet "user"
 let res = {}
 let arrRes = []
-const input = process.argv[2] //permet de récupérer l'entrée donné en paramètre dans le terminal
+//const input = process.argv[2] // Permet de récupérer l'entrée donné en paramètre dans le terminal
+
+function printMenu(){
+    console.log("--------------------------------");
+    console.log("1. Country");
+    console.log("2. Company");
+    console.log("3. Quitter");
+    console.log("--------------------------------");
+    let readlineSync = require('readline-sync');
+    let readline = readlineSync.question('Faites votre choix');
+    return readline;
+}
 
 /**
- * Fonction qui récupère les informations dans le fichier
+ * Fonction qui récupère les informations demander dans le fichier
  * @param {string} request input récupérer dans la console
  */
 function getData(request) {
@@ -36,15 +47,21 @@ function printData(){
     console.log(arrRes) // Affichage du tableau
 } 
 
-
+/**
+ * Fonction principale
+ */
 function main(){
-    if(input === 'country'){ // Si entrée est country, on exécute le code suivant
-        getData(input);
+    let choice = printMenu();
+    if(choice === 1){ // Si entrée est country
+        getData('country');
     }
     
-    if(input === 'company'){ // Si entrée est company, on exécutele code suivant
-        getData(input);
+    else if(choice === 2){ // Si entrée est company
+        getData('company');
     }
+
+    else if(choice === 3){} // Si entrée est quitter
+    
     printData();
 }
 
