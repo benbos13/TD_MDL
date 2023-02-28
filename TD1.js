@@ -1,21 +1,18 @@
-const fs = require('fs');
-let rawdata = fs.readFileSync('users.json');//on lit de manière asynchrone le fichier users.json
-//(lire de manière synchrone peut peut-être fonctionner aussi)
-
-let user = JSON.parse(rawdata)//crée un objet contenant les lignes lues (je suppose)
+const fs = require('fs'); // Charge le module fs afin de pouvoir lire par la suite
+let rawdata = fs.readFileSync('users.json'); // On lit de manière synchrone c'est-à-dire que l'éxécution du programme est suspendu pendant la lecture du fichier
+let user = JSON.parse(rawdata) // Converti la chaine de caractère "rawdata" en objet "user"
 
 let res = {}
 let arrRes = []
 
-
 const input = process.argv[2] //permet de récupérer l'entrée donné en paramètre dans le terminal
 
-if(input === 'country'){ //si entrée est country, on exécute le code suivant
+if(input === 'country'){ // Si entrée est country, on exécute le code suivant
 
-    for (i = 0; i < user.length; i++) {
+    for (i = 0; i < user.length; i++) { 
         var nomPays = user[i].country//on récupère le nom du pays
         if (!res[nomPays]) { //si nomPays n'appartient pas à res,
-            res[nomPays] = 1//on définit l'indice du pays à 1
+            res[nomPays] = 1 // On définit l'indice du pays à 1
         }
         else//sinon
             res[nomPays]++//on incrémente
@@ -27,7 +24,7 @@ if(input === 'country'){ //si entrée est country, on exécute le code suivant
     }
 }
 
-if(input === 'company'){//si entrée est company, on exécutele code suivant
+if(input === 'company'){ //si entrée est company, on exécutele code suivant
     for (i = 0; i < user.length; i++) {
         var nomCompanie = user[i].company//on récupère le nom de la compagnie
         if (!res[nomCompanie]) { //si nomPays n'appartient pas à res,
